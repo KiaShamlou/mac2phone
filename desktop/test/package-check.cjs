@@ -12,14 +12,15 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
   if(selected.length&&!selected.includes(platform.toLowerCase()))continue;
   const base=path.join(process.env.M2P_RELEASE_DIR||path.join(root,'release'),dir,resources),archive=path.join(base,'app.asar');
   const files=['bootstrap.cjs','startup.cjs','main.cjs','preload.cjs'];
-  assert(statFile(archive,'node_modules/bonjour-service/dist/index.js'),`${platform}: discovery dependency`);
+  // ASAR's filesystem API splits paths using the host OS separator.
+  assert(statFile(archive,path.join('node_modules','bonjour-service','dist','index.js')),`${platform}: discovery dependency`);
   const metadata=JSON.parse(extractFile(archive,'package.json')),source=JSON.parse(fs.readFileSync(path.join(root,'package.json')));
   for(const key of ['name','version','description','license','main','dependencies'])assert.deepEqual(metadata[key],source[key],`${platform}: ${key}`);
   for(const folder of ['core','native','renderer'])for(const name of fs.readdirSync(path.join(root,folder),{recursive:true})){
    const relative=path.join(folder,name);if(fs.statSync(path.join(root,relative)).isFile())files.push(relative);
   }
-  for(const file of files)assert.deepEqual(extractFile(archive,file.replaceAll('\\','/')),fs.readFileSync(path.join(root,file)),`${platform}: ${file}`);
-  assert.equal(statFile(archive,'native/input-windows.ps1').unpacked,true);
+  for(const file of files)assert.deepEqual(extractFile(archive,file),fs.readFileSync(path.join(root,file)),`${platform}: ${file}`);
+  assert.equal(statFile(archive,path.join('native','input-windows.ps1')).unpacked,true);
   assert.deepEqual(fs.readFileSync(path.join(base,'app.asar.unpacked/native/input-windows.ps1')),fs.readFileSync(path.join(root,'native/input-windows.ps1')));
   assert.deepEqual(fs.readFileSync(path.join(base,'LICENSE')),fs.readFileSync(path.join(root,'../LICENSE')));
   if(platform==='Mac'){
