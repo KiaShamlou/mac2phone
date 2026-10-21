@@ -5,6 +5,10 @@ const {pathToFileURL}=require('node:url');
 const path=require('node:path'),assert=require('node:assert/strict');
 const {CapturePolicy,installCapturePermissions}=require('../core/capture-policy.cjs');
 const baseline=process.argv.includes('--baseline');
+// Hosted runners have no camera. A synthetic device makes permission denial
+// deterministic instead of failing early with NotFoundError. Do not auto-grant
+// permissions: the production handlers must still reject this fake camera.
+app.commandLine.appendSwitch('use-fake-device-for-media-stream');
 app.setPath('userData',require('node:fs').mkdtempSync(path.join(require('node:os').tmpdir(),'m2p-capture-test-')));
 app.whenReady().then(async()=>{
  try{
