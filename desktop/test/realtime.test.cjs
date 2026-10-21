@@ -1,0 +1,75 @@
+'use strict';
+const {test}=require('node:test'),assert=require('node:assert/strict');
+const {once}=require('node:events');
+const {CAPABILITY,validSignal,peerSignal}=require('../core/realtime.cjs');
+const {Host}=require('../core/host.cjs'),{Session}=require('../core/session.cjs');
+const {remotePoint}=require('../renderer/viewport.js');
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+test('realtime signaling is bounded, direction-specific and excludes arbitrary messages',()=>{
+ for(const value of [{type:'start',quality:'balanced'},{type:'quality',quality:'sharp'},{type:'active'},{type:'fallback'},{type:'answer',sdp:'v=0\r\n'},{type:'candidate',candidate:null}])assert(validSignal(value,'viewer'));
+ assert(validSignal({type:'offer',sdp:'v=0\r\n'},'host'));
+ for(const value of [null,[],{type:'start',quality:'unbounded'},{type:'offer',sdp:'v=0'},{type:'answer',sdp:'x'.repeat(70000)},{type:'shell',command:'test'},{type:'candidate',candidate:{candidate:'x',sdpMid:null,sdpMLineIndex:99}}])assert.equal(validSignal(value,'viewer'),false);
+ const circular={type:'active'};circular.self=circular;assert.equal(validSignal(circular,'viewer'),false);
+ assert.equal(validSignal({type:'active'},'host'),false);
+});
+test('pointer mapping stays aligned across fullscreen, letterboxing, HiDPI and different aspect ratios',()=>{
+ const box={left:0,top:0,width:1512,height:982};
+ assert.deepEqual(remotePoint(box,1920,1080,{clientX:756,clientY:491}),{x:.5,y:.5,inside:true});
+ const height=1512*1080/1920,top=(982-height)/2;
+ assert.deepEqual(remotePoint(box,1920,1080,{clientX:0,clientY:top}),{x:0,y:0,inside:true});
+ assert.deepEqual(remotePoint(box,1920,1080,{clientX:1512,clientY:top+height}),{x:1,y:1,inside:true});
+ assert.equal(remotePoint(box,1920,1080,{clientX:756,clientY:0}).inside,false);
+ assert.deepEqual(remotePoint({left:100,top:40,width:800,height:600},3840,2160,{clientX:500,clientY:340}),{x:.5,y:.5,inside:true});
+ assert.deepEqual(remotePoint({left:0,top:0,width:0,height:0},0,0,{clientX:0,clientY:0}),{x:0,y:0,inside:false});
+});
+test('approved TLS negotiates realtime, pauses JPEG only after activation and restores it on fallback',async t=>{
+ const host=new Host({requireApproval:true,realtime:true,platform:'win32'}),viewer=new Session();
+ await host.start({bind:'127.0.0.1',port:0});t.after(async()=>{viewer.disconnect();await host.stop();});
+ const connected=once(viewer,'state');viewer.connect(host.grant('127.0.0.1'));await connected;
+ for(let i=0;i<100&&!viewer.ready;i++)await wait(5);assert(viewer.ready);assert.equal(viewer.capabilities.realtime,CAPABILITY);
+ const start=once(host,'realtime');viewer.signal({type:'start',quality:'balanced'});const [{id,signal}]=await start;assert.equal(signal.type,'start');
+ let videos=0;viewer.on('video',()=>{videos++;viewer.ackVideo();});const jpeg=Buffer.from([255,216,255,217]);host.jpeg(jpeg);await wait(20);assert.equal(videos,1);
+ const offer=once(viewer,'realtime');assert.equal(host.signal('wrong-id',{type:'offer',sdp:'v=0'}),false);assert(host.signal(id,{type:'offer',sdp:'v=0'}));assert.equal((await offer)[0].type,'offer');
+ assert.equal(host.signal(id,{type:'telemetry',reason:'none',fps:60}),false,'old viewers must never receive telemetry without opting in');
+ const active=once(host,'realtime');viewer.signal({type:'active'});await active;host.jpeg(jpeg);await wait(20);assert.equal(videos,1);
+ const fallback=once(host,'realtime');viewer.signal({type:'fallback'});await fallback;host.jpeg(jpeg);await wait(20);assert.equal(videos,2);
+ assert.equal(host.signal(id,{type:'offer',sdp:'v=0'}),false,'closed negotiation cannot signal');
+});
+test('legacy hosts never receive new signaling',()=>{
+ const viewer=new Session();viewer.ready=true;viewer.capabilities={video:'jpeg'};let sent=0;viewer.send=()=>sent++;
+ assert.equal(viewer.signal({type:'start',quality:'balanced'}),false);assert.equal(sent,0);
+ viewer.capabilities.realtime=CAPABILITY;
+ assert.equal(viewer.signal({type:'feedback',frames:60}),false);assert.equal(sent,0,'0.5.0/0.5.1 hosts never receive receiver feedback');
+});
+test('receiver feedback requires advertised support, negotiated opt-in and active approved media',async t=>{
+ const host=new Host({requireApproval:true,realtime:true}),viewer=new Session();
+ await host.start({bind:'127.0.0.1',port:0});t.after(async()=>{viewer.disconnect();await host.stop();});
+ viewer.connect(host.grant('127.0.0.1'));
+ for(let i=0;i<100&&!viewer.ready;i++)await wait(5);
+ assert(viewer.ready);assert.equal(viewer.capabilities.realtimeFeedback,1);
+ let event=once(host,'realtime');viewer.signal({type:'start',quality:'balanced',feedback:true,telemetry:true});await event;
+ let closed=once([...host.clients][0].socket,'close');
+ viewer.signal({type:'feedback',frames:60,bufferMs:80});await closed;
+ assert.equal(host.clients.size,0,'feedback before decoded media activation is rejected');
+ viewer.disconnect();viewer.connect(host.grant('127.0.0.1'));
+ for(let i=0;i<100&&!viewer.ready;i++)await wait(5);assert(viewer.ready);
+ event=once(host,'realtime');viewer.signal({type:'start',quality:'balanced',feedback:true,telemetry:true});await event;
+ event=once(host,'realtime');viewer.signal({type:'active'});await event;
+ event=once(host,'realtime');viewer.signal({type:'feedback',frames:60,bufferMs:80});assert.equal((await event)[0].signal.bufferMs,80);
+ event=once(host,'realtime');viewer.signal({type:'fallback'});await event;
+ event=once(host,'realtime');viewer.signal({type:'start',quality:'fast'});await event;
+ event=once(host,'realtime');viewer.signal({type:'active'});await event;
+ closed=once([...host.clients][0].socket,'close');
+ viewer.signal({type:'feedback',frames:60,bufferMs:80});await closed;
+ assert.equal(host.clients.size,0,'feedback without opt-in closes the invalid session');
+});
+test('mDNS ICE candidates use only the authenticated socket peer without changing fingerprints or public candidates',()=>{
+ const candidate={type:'candidate',candidate:{candidate:'candidate:123 1 udp 123 opaque.local 5000 typ host',sdpMid:'0',sdpMLineIndex:0}};
+ assert.match(peerSignal(candidate,'::ffff:192.168.59.115').candidate.candidate,/192\.168\.59\.115 5000 typ host/);
+ assert.match(candidate.candidate.candidate,/opaque\.local/);
+ const sdp={type:'offer',sdp:'v=0\r\na=fingerprint:sha-256 ABCD\r\na='+candidate.candidate.candidate+'\r\n'};
+ assert.equal(peerSignal(sdp,'192.168.59.115').sdp,'v=0\r\na=fingerprint:sha-256 ABCD\r\na=candidate:123 1 udp 123 192.168.59.115 5000 typ host\r\n');
+ assert.deepEqual(peerSignal(candidate,'not-an-address'),candidate);
+ const direct={type:'candidate',candidate:{...candidate.candidate,candidate:'candidate:123 1 udp 123 192.168.1.2 5000 typ host'}};
+ assert.deepEqual(peerSignal(direct,'192.168.59.115'),direct);
+});

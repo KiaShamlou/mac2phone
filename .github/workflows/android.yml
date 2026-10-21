@@ -1,0 +1,31 @@
+name: Android preview
+on:
+  push:
+    paths: ['android/**', 'desktop/core/**', 'desktop/test/android-interop.cjs', 'Scripts/check-android-interop.sh', '.github/workflows/android.yml']
+  pull_request:
+    paths: ['android/**', 'desktop/core/**', 'desktop/test/android-interop.cjs', 'Scripts/check-android-interop.sh', '.github/workflows/android.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: android-actions/setup-android@v3
+      - run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+      - run: android/gradlew -p android testDebugUnitTest assembleDebug
+      - run: Scripts/check-android-interop.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Mac2Phone-Android-debug-preview
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 7

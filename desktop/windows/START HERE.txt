@@ -1,0 +1,54 @@
+Mac2Phone for Windows 11 (x64) - portable app
+
+1. Right-click the downloaded ZIP and choose Extract All.
+2. Open the extracted Mac2Phone-win32-x64 folder.
+3. Double-click Mac2Phone.exe.
+
+Keep the ENTIRE folder together. The EXE is not a standalone program.
+Do not launch inside the ZIP. Do not copy just the EXE to the desktop.
+To make a desktop shortcut, create a shortcut to the extracted Mac2Phone.exe.
+Node.js is not required on your Windows computer.
+
+If nothing opens:
+- Run Diagnose Mac2Phone.cmd from the extracted folder.
+- It checks for missing runtime files and displays the launch exit code.
+- Startup logs are saved in %LOCALAPPDATA%\Mac2Phone\logs\startup.log.
+- Include the exact error, exit code and log in your bug report.
+- If a log was never created, include that fact too.
+- For a blank or crashing graphics window, optionally try
+  Start Mac2Phone (software rendering).cmd. This only changes rendering
+  for that launch; normal launches continue to use hardware acceleration.
+
+Screen sharing setup (v0.5.3):
+1. Open Share screen, then click Check & choose.
+2. Select a display and choose Keyboard & mouse / System sound if wanted.
+3. Click Allow screen & preview. Grant any system prompt that appears.
+4. Check the local preview. No screen data is sent yet.
+5. Click Start sharing, then accept a nearby request or copy a one-use link.
+6. Stop sharing ends connections and revokes links.
+
+Screen access is session-based. The app does not request camera or microphone
+access. If preview is denied, refresh the selection and try video-only.
+Both devices need LAN access. Opening the app alone does not share anything.
+
+Realtime video:
+- Use desktop 0.5.3 on both ends for two-way Auto, capture budgeting and 30/60 FPS controls.
+  Desktop 0.5.0 still supports WebRTC; older versions keep JPEG video.
+- Older desktop/native mobile peers keep compatibility video.
+- Sessions open fullscreen. F11 toggles fullscreen; F8 shows the toolbar.
+- Enable Control separately. Shift+Escape releases control.
+- Choose Auto for low latency, or Fast for a fixed lower stream cap.
+  Sharp prioritizes text detail and may run at a lower frame rate.
+- The overlay also reports buffer/decode/encode time, frame drops and loss.
+  Send its full text or a screenshot when reporting delay. Up to 60 fps
+  is a target, not a guaranteed rate. Media RTT is not total display latency.
+- Sound remains opt-in on both ends. Windows shortcuts use Control, not Command.
+- If realtime negotiation fails, compatibility video resumes automatically.
+
+Recovery and preferences (0.5.3):
+- After video has worked, the viewer can retry interrupted video twice per minute.
+  Compatibility video remains available during recovery. Disconnect stops retries.
+- If retries are exhausted, choose Retry realtime manually when ready.
+- Quality, Motion and Open sessions in fullscreen are remembered locally.
+  Control and Sound always require enabling in each new session.
+- Copy diagnostics includes the video recovery-attempt count.

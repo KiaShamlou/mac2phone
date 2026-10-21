@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob:; connect-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Mac2Phone</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<svg class="symbol-library" aria-hidden="true"><defs>
+<symbol id="i-devices" viewBox="0 0 24 24"><rect x="2" y="4" width="15" height="12" rx="2"/><path d="M5 20h9M9 16v4"/><rect x="16" y="10" width="6" height="11" rx="1.5"/></symbol>
+<symbol id="i-screen" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2.5"/><path d="M8 21h8m-4-4v4m0-8V7m-3 3 3-3 3 3"/></symbol>
+<symbol id="i-session" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="15" rx="2.5"/><path d="m10 8 5 3-5 3Zm-3 7h10m-5-3v3"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 8 10 8 10s8-5 8-10V5Zm-4 9 3 3 5-6"/></symbol>
+<symbol id="i-link" viewBox="0 0 24 24"><path d="m10 14 4-4m-5-3 2-2a5 5 0 0 1 7 7l-2 2m-8-4-2 2a5 5 0 0 0 7 7l2-2"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+<symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M6 9h1m4 0h1m4 0h1M6 12h1m4 0h1m4 0h1M7 15h10"/></symbol>
+<symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4Zm12-1a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 10a8 8 0 1 0-2 8M20 4v6h-6"/></symbol>
+</defs></svg>
+<aside class="sidebar">
+ <a class="brand" href="#devices" data-go="devices"><img src="icon.png" alt="" width="36" height="36"><span>Mac2Phone<small>Your devices, together.</small></span></a>
+ <nav aria-label="Main navigation">
+  <button class="nav-item" data-go="devices" aria-current="page"><svg class="icon"><use href="#i-devices"/></svg>Devices</button>
+  <button class="nav-item" data-go="share"><svg class="icon"><use href="#i-screen"/></svg>Share screen<span id="nav-sharing" class="live-dot" hidden></span></button>
+  <button class="nav-item" data-go="session"><svg class="icon"><use href="#i-session"/></svg>Session<span id="nav-connected" class="live-dot" hidden></span></button>
+ </nav>
+ <div class="sidebar-spacer"></div>
+ <div class="sidebar-sharing" id="sidebar-sharing" hidden><span class="live-label"><i></i> You're sharing</span><p id="sidebar-share-detail">Waiting for a request</p><button id="sidebar-stop" class="danger">Stop sharing</button></div>
+ <div class="privacy-note"><svg class="icon"><use href="#i-shield"/></svg><strong>Private by design</strong><p>Direct on your LAN.<br>Every connection needs approval.</p></div>
+ <div class="this-device"><span class="device-avatar"><svg class="icon"><use href="#i-screen"/></svg></span><span><strong id="local-device-name">This computer</strong><small id="local-platform">Desktop app</small></span></div>
+</aside>
+<main>
+ <header class="page-header"><div><p class="eyebrow">YOUR WORKSPACE</p><h1 id="page-title" tabindex="-1">Devices</h1></div><span class="network-pill"><svg class="icon"><use href="#i-shield"/></svg>Local connections</span></header>
+ <div id="notice" role="status" aria-live="polite" hidden></div>
+ <section id="nearby-incoming" class="incoming" aria-labelledby="incoming-title" aria-live="assertive" hidden>
+  <div class="incoming-copy"><span class="eyebrow">INCOMING REQUEST</span><h2 id="incoming-title">Someone wants to connect</h2><p id="request-name"></p><p id="request-note" role="status">Set up your screen before accepting.</p></div>
+  <div class="incoming-verify"><span>Compare on both devices</span><strong id="request-code" class="verification-code"></strong></div>
+  <div class="request-actions"><button id="request-accept" class="primary">Accept & share</button><button id="request-decline" class="quiet">Decline</button></div>
+ </section>
+ <section id="devices-panel" class="page-panel" data-panel="devices" aria-label="Devices">
+  <div class="welcome-card"><div><span class="eyebrow">A LITTLE CLOSER</span><h2>One network.<br>All your screens.</h2><p>Share this computer, or request access<br>to another device nearby.</p><button class="primary" data-go="share">Share my screen <svg class="icon"><use href="#i-arrow"/></svg></button></div><div class="device-art" aria-hidden="true"><div class="art-screen"><div class="art-window"><i></i><i></i><i></i><span></span></div></div><div class="art-phone"><span></span></div><span class="art-link"><svg class="icon"><use href="#i-link"/></svg></span></div></div>
+  <section class="nearby-section" aria-labelledby="nearby-title"><div class="section-heading"><div><h2 id="nearby-title">Nearby devices <span id="nearby-count" class="count">0</span></h2><p>Choose a device to send a connection request.</p></div><button id="nearby-refresh" class="quiet" aria-label="Refresh nearby devices"><svg class="icon"><use href="#i-refresh"/></svg><span>Refresh</span></button></div>
+   <div id="nearby-list" class="device-grid" aria-live="polite"><div class="empty-devices"><svg class="icon"><use href="#i-devices"/></svg><strong>Looking for your devices</strong><p>Open Mac2Phone on another device.<br>Connect both devices to the same Wi-Fi or LAN.</p></div></div>
+   <div class="request-progress"><p id="nearby-status" role="status"></p><button id="nearby-cancel" class="quiet" hidden>Cancel request</button></div>
+  </section>
+  <details class="manual-pair"><summary><svg class="icon"><use href="#i-link"/></svg>Have a one-use link?<span>Connect manually</span></summary><form id="pair-form"><label class="sr-only" for="pair-link">One-use pairing link</label><input id="pair-link" type="password" placeholder="Paste mac2phone://…" autocomplete="off" spellcheck="false" maxlength="1024" required><button id="connect" type="submit" class="primary">Connect</button></form><p>Copy a one-use link on the sharing device. Links expire after 60 seconds.</p></details>
+ </section>
+ <section id="share-panel" class="page-panel" data-panel="share" aria-label="Share screen" hidden>
+  <div class="section-heading share-heading"><div><h2>Your screen. Your choice.</h2><p>Check access first. Preview locally. Share only when you're ready.</p></div><span id="share-badge" class="badge">Not sharing</span></div>
+  <ol class="steps" aria-label="Sharing setup"><li id="step-access" aria-current="step"><span>1</span>Screen access</li><li id="step-preview"><span>2</span>Local preview</li><li id="step-share"><span>3</span>Share & approve</li></ol>
+  <div class="share-layout"><div class="share-primary">
+   <section class="access-card" aria-labelledby="access-title"><div class="access-icon"><svg class="icon"><use href="#i-shield"/></svg></div><div><h3 id="access-title">Let's set up screen access</h3><p id="access-description">Choose a display and allow a local preview. Nothing is sent to another device yet.</p><span id="permission-status" class="permission-status">Not checked</span></div><button id="share-sources" class="quiet">Check & choose</button></section>
+   <div id="share-source-list" class="source-list" role="group" aria-label="Displays" hidden></div>
+   <select id="share-source" class="sr-only" aria-label="Selected display" tabindex="-1" hidden></select>
+   <div class="local-preview"><video id="share-video" muted playsinline aria-label="Local preview of your selected screen" hidden></video><div id="preview-empty"><span class="preview-icon"><svg class="icon"><use href="#i-screen"/></svg></span><h3>Your preview appears here</h3><p id="preview-description">Start with Check & choose above.<br>You decide which screen is visible.</p></div><span id="preview-label" class="preview-label" hidden>Local preview · only you can see this</span></div>
+   <div id="share-error" class="error-card" role="alert" hidden><strong id="share-error-title"></strong><p id="share-error-detail"></p><button id="share-settings" class="quiet" hidden>Open Screen Recording settings</button></div>
+  </div><section class="share-options" aria-labelledby="access-options-title"><h3 id="access-options-title">What can they do?</h3><p class="muted">Access applies only to this session.</p>
+   <label class="option-row" for="share-control"><span class="option-icon"><svg class="icon"><use href="#i-keyboard"/></svg></span><span class="option-copy"><strong>Keyboard & mouse</strong><small id="control-description">Let an approved device control this screen.</small></span><input type="checkbox" class="switch" id="share-control"></label>
+   <label class="option-row" for="share-sound"><span class="option-icon"><svg class="icon"><use href="#i-sound"/></svg></span><span class="option-copy"><strong>System sound</strong><small id="sound-description">Share computer audio, not your microphone.</small></span><input type="checkbox" class="switch" id="share-sound"></label>
+   <div class="share-actions"><button id="share-preview" class="primary" disabled>Allow screen & preview</button><button id="share-start" class="primary" hidden disabled>Start sharing</button><button id="share-copy" class="quiet" hidden disabled>Copy one-use link</button><button id="share-stop" class="danger" hidden disabled>Stop sharing</button><button id="share-reset" class="quiet" hidden>Discard preview</button></div>
+   <p id="share-status" class="share-status" role="status">Screen access comes first.</p><div class="approval-note"><svg class="icon"><use href="#i-shield"/></svg><p>Starting makes your screen available. Each nearby request still needs your approval.</p></div>
+  </section></div>
+ </section>
+ <section id="session-panel" class="page-panel session-panel" data-panel="session" aria-label="Remote session" hidden>
+  <div class="section-heading"><div><h2 id="host-name">No device connected</h2><p>See and control an approved remote screen.</p></div><span class="badge" id="status">Ready to pair</span></div>
+  <section class="viewer" aria-label="Remote screen"><div id="empty"><span class="preview-icon"><svg class="icon"><use href="#i-session"/></svg></span><h2>Your next screen is nearby.</h2><p>Choose a device and send a request.<br>The session opens here once they accept.</p><button class="quiet" data-go="devices">Find a device <svg class="icon"><use href="#i-arrow"/></svg></button></div><video id="remote-video" muted autoplay playsinline hidden></video><canvas id="screen" tabindex="0" aria-label="Remote screen. Enable control, then click here to use your keyboard and mouse." hidden></canvas><div id="stream-info" hidden><span id="video-stats">Compatibility video</span> <span id="latency"></span><div id="performance-details"></div><div id="stream-message"></div></div></section>
+  <div class="session-health" id="session-health" hidden><div><span id="health-label" class="health-pill" data-state="live">Connecting video…</span><span id="session-versions"></span></div><div class="health-actions"><button id="optimize-stream" class="quiet" hidden>Reduce delay</button><button id="retry-video" class="quiet" hidden>Retry realtime</button><button id="copy-diagnostics" class="quiet">Copy diagnostics</button></div></div>
+  <div class="controls" aria-label="Session controls"><div class="controls-left"><label class="toggle"><input class="switch" type="checkbox" id="control" disabled><span>Control</span></label><label class="toggle"><input class="switch" type="checkbox" id="audio" disabled><span>Sound</span></label><label class="quality-label">Quality <select id="video-quality" aria-label="Video quality"><option value="auto" selected>Auto · low latency</option><option value="fast">Fast · up to 720p</option><option value="balanced">Balanced · up to 1080p</option><option value="sharp">Sharp · text priority</option></select></label><label class="quality-label">Motion <select id="video-fps" aria-label="Target frame rate" disabled><option value="60">60 FPS</option><option value="30">30 FPS · lighter</option></select></label></div><div class="session-actions"><button id="fullscreen" class="quiet" disabled>Fullscreen</button><button id="disconnect" class="quiet" disabled>Disconnect</button></div></div>
+  <div class="viewer-preferences"><label><input type="checkbox" id="auto-fullscreen" checked> Open sessions in fullscreen</label><span id="preferences-status" role="status">Quality and motion are remembered. Control and Sound stay off until enabled.</span></div>
+  <div class="keyboard-options"><label><input type="checkbox" id="cmd-map" checked> Map Ctrl shortcuts to ⌘ Command</label><span>Shift + Esc releases control</span></div>
+  <form id="text-form"><label class="sr-only" for="text">Send text, including international characters</label><input id="text" placeholder="Type or paste text to send…" maxlength="2000" disabled><button id="send-text" class="quiet" disabled>Send text</button></form>
+ </section>
+ <footer><span>Mac2Phone · Desktop 0.5.3</span><span>No account. No cloud relay.</span></footer>
+</main>
+<script src="stream-policy.js"></script><script src="capture-budget.js"></script><script src="diagnostics.js"></script><script src="frame-queue.js"></script><script src="viewport.js"></script><script src="realtime.js"></script><script src="ui.js"></script><script src="app.js"></script><script src="sharing.js"></script><script src="nearby.js"></script>
+</body></html>

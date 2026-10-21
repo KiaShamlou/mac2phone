@@ -1,0 +1,503 @@
+// !$*UTF8*$!
+{
+	"classes" = {
+	};
+	"objectVersion" = "77";
+	"archiveVersion" = "1";
+	"objects" = {
+		"C0DE00000000000000000001" = {
+			"path" = "../Sources/mac2phone/Nearby.swift";
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"sourceTree" = "SOURCE_ROOT";
+		};
+		"C0DE00000000000000000002" = {
+			"fileRef" = "C0DE00000000000000000001";
+			"isa" = "PBXBuildFile";
+		};
+		"F8C32698263B8BBC0910FD18" = {
+			"path" = "Mac2PhoneWatch.app";
+			"isa" = "PBXFileReference";
+			"includeInIndex" = "0";
+			"explicitFileType" = "wrapper.application";
+			"sourceTree" = "BUILT_PRODUCTS_DIR";
+		};
+		"AA0000000000000000000001" = {
+			"isa" = "PBXFileSystemSynchronizedRootGroup";
+			"path" = "Mac2Phone";
+			"sourceTree" = "<group>";
+		};
+		"FF966815EBC5B7D5D1F6D247" = {
+			"isa" = "PBXSourcesBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = ("5BC410B221560E4E63970CCF", );
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"AA0000000000000000000002" = {
+			"isa" = "PBXFrameworksBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = ();
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"4CBFD98C2F323396B00B1084" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "34640011DD5D4199C928B915";
+		};
+		"6DC5967503BCAB6E2FAFBD78" = {
+			"isa" = "XCBuildConfiguration";
+			"name" = "Release";
+			"buildSettings" = {
+				"LD_RUNPATH_SEARCH_PATHS" = ("$(inherited)", "@executable_path/Frameworks", );
+				"MARKETING_VERSION" = "1.0";
+				"INFOPLIST_FILE" = "Mac2PhoneWatch-Info.plist";
+				"SKIP_INSTALL" = "YES";
+				"TARGETED_DEVICE_FAMILY" = "4";
+				"GENERATE_INFOPLIST_FILE" = "NO";
+				"SWIFT_OPTIMIZATION_LEVEL" = "-O";
+				"SUPPORTED_PLATFORMS" = "watchos watchsimulator";
+				"CODE_SIGN_STYLE" = "Automatic";
+				"SDKROOT" = "watchos";
+				"SWIFT_VERSION" = "5.0";
+				"PRODUCT_NAME" = "$(TARGET_NAME)";
+				"WATCHOS_DEPLOYMENT_TARGET" = "10.0";
+				"PRODUCT_BUNDLE_IDENTIFIER" = "com.kianoosh.mac2phone.watchkitapp";
+				"CURRENT_PROJECT_VERSION" = "1";
+				"ASSETCATALOG_COMPILER_APPICON_NAME" = "AppIcon";
+			};
+		};
+		"D0A037F02B63A2BB41A2CAF2" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "0D34AB84B83A0B059A732420";
+		};
+		"8B47BC5BFBF67E2096BDCC42" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "F8C32698263B8BBC0910FD18";
+			"settings" = {
+				"ATTRIBUTES" = ("RemoveHeadersOnCopy", );
+			};
+		};
+		"AA000000000000000000000A" = {
+			"isa" = "XCConfigurationList";
+			"defaultConfigurationIsVisible" = "0";
+			"defaultConfigurationName" = "Release";
+			"buildConfigurations" = ("AA000000000000000000000B", "AA000000000000000000000C", );
+		};
+		"AA0000000000000000000003" = {
+			"isa" = "PBXGroup";
+			"sourceTree" = "<group>";
+			"children" = ("AA0000000000000000000001", "AA0000000000000000000010", "AA0000000000000000000004", "F2A0DC774275063EF9444AA6", "0D34AB84B83A0B059A732420", "D2493B5F02AF0058E16B7B57", "34640011DD5D4199C928B915", "5EC454BDEDFF27267813770B", "BD6CDD87E0B1AD4FEA5BD71D", "9CE0211EE5AEF1D1269E3D93", "C0DE00000000000000000001", );
+		};
+		"AA0000000000000000000010" = {
+			"path" = "Info.plist";
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "text.plist.xml";
+			"sourceTree" = "<group>";
+		};
+		"5BC410B221560E4E63970CCF" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "BD6CDD87E0B1AD4FEA5BD71D";
+		};
+		"02FCB47F88D96C55E981BF04" = {
+			"buildActionMask" = "2147483647";
+			"dstSubfolderSpec" = "16";
+			"isa" = "PBXCopyFilesBuildPhase";
+			"runOnlyForDeploymentPostprocessing" = "0";
+			"dstPath" = "$(CONTENTS_FOLDER_PATH)/Watch";
+			"files" = ("8B47BC5BFBF67E2096BDCC42", );
+			"name" = "Embed Mac2PhoneWatch";
+		};
+		"AA000000000000000000000B" = {
+			"isa" = "XCBuildConfiguration";
+			"buildSettings" = {
+				"LD_RUNPATH_SEARCH_PATHS" = ("$(inherited)", "@executable_path/Frameworks", );
+				"DEVELOPMENT_TEAM" = "";
+				"MARKETING_VERSION" = "1.0";
+				"INFOPLIST_FILE" = "Info.plist";
+				"TARGETED_DEVICE_FAMILY" = "1,2";
+				"M2P_APP_GROUP" = "group.com.kianoosh.mac2phone";
+				"GENERATE_INFOPLIST_FILE" = "NO";
+				"ENABLE_PREVIEWS" = "YES";
+				"CODE_SIGN_STYLE" = "Automatic";
+				"PRODUCT_NAME" = "$(TARGET_NAME)";
+				"SWIFT_EMIT_LOC_STRINGS" = "YES";
+				"ASSETCATALOG_COMPILER_APPICON_NAME" = "AppIcon";
+				"PRODUCT_BUNDLE_IDENTIFIER" = "com.kianoosh.mac2phone";
+				"CURRENT_PROJECT_VERSION" = "1";
+				"CODE_SIGN_ENTITLEMENTS" = "Mac2Phone.entitlements";
+			};
+			"name" = "Debug";
+		};
+		"AA0000000000000000000004" = {
+			"isa" = "PBXGroup";
+			"name" = "Products";
+			"children" = ("AA0000000000000000000005", "F5E970EA2F7E86FCEE2696EF", "F8C32698263B8BBC0910FD18", );
+			"sourceTree" = "<group>";
+		};
+		"82035BC70541EE53BDD0EC08" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "D2493B5F02AF0058E16B7B57";
+		};
+		"741C6138ED76274336471711" = {
+			"buildActionMask" = "2147483647";
+			"dstSubfolderSpec" = "13";
+			"isa" = "PBXCopyFilesBuildPhase";
+			"runOnlyForDeploymentPostprocessing" = "0";
+			"dstPath" = "";
+			"files" = ("89DCD8088E5A4DB439C6DB93", );
+			"name" = "Embed Mac2PhoneBroadcast";
+		};
+		"D2493B5F02AF0058E16B7B57" = {
+			"path" = "../Sources/mac2phone/Pairing.swift";
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"sourceTree" = "<group>";
+		};
+		"6D47F0BBA030D65C368F3B4A" = {
+			"isa" = "PBXResourcesBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = ();
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"AA000000000000000000000C" = {
+			"isa" = "XCBuildConfiguration";
+			"buildSettings" = {
+				"LD_RUNPATH_SEARCH_PATHS" = ("$(inherited)", "@executable_path/Frameworks", );
+				"DEVELOPMENT_TEAM" = "";
+				"MARKETING_VERSION" = "1.0";
+				"INFOPLIST_FILE" = "Info.plist";
+				"TARGETED_DEVICE_FAMILY" = "1,2";
+				"M2P_APP_GROUP" = "group.com.kianoosh.mac2phone";
+				"GENERATE_INFOPLIST_FILE" = "NO";
+				"ENABLE_PREVIEWS" = "YES";
+				"CODE_SIGN_STYLE" = "Automatic";
+				"PRODUCT_NAME" = "$(TARGET_NAME)";
+				"SWIFT_EMIT_LOC_STRINGS" = "YES";
+				"ASSETCATALOG_COMPILER_APPICON_NAME" = "AppIcon";
+				"PRODUCT_BUNDLE_IDENTIFIER" = "com.kianoosh.mac2phone";
+				"CURRENT_PROJECT_VERSION" = "1";
+				"CODE_SIGN_ENTITLEMENTS" = "Mac2Phone.entitlements";
+			};
+			"name" = "Release";
+		};
+		"AA0000000000000000000005" = {
+			"path" = "Mac2Phone.app";
+			"isa" = "PBXFileReference";
+			"includeInIndex" = "0";
+			"explicitFileType" = "wrapper.application";
+			"sourceTree" = "BUILT_PRODUCTS_DIR";
+		};
+		"BD6CDD87E0B1AD4FEA5BD71D" = {
+			"path" = "Watch/Mac2PhoneWatch.swift";
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"sourceTree" = "<group>";
+		};
+		"AA000000000000000000000D" = {
+			"isa" = "XCConfigurationList";
+			"defaultConfigurationIsVisible" = "0";
+			"defaultConfigurationName" = "Release";
+			"buildConfigurations" = ("AA000000000000000000000E", "AA000000000000000000000F", );
+		};
+		"AA0000000000000000000006" = {
+			"buildRules" = ();
+			"buildConfigurationList" = "AA000000000000000000000A";
+			"productReference" = "AA0000000000000000000005";
+			"productType" = "com.apple.product-type.application";
+			"packageProductDependencies" = ();
+			"productName" = "Mac2Phone";
+			"isa" = "PBXNativeTarget";
+			"fileSystemSynchronizedGroups" = ("AA0000000000000000000001", );
+			"dependencies" = ("671AD406CE8051A9B460388E", "3E446B8391B47BFD1EA867B9", );
+			"buildPhases" = ("AA0000000000000000000007", "AA0000000000000000000002", "AA0000000000000000000008", "741C6138ED76274336471711", "02FCB47F88D96C55E981BF04", );
+			"name" = "Mac2Phone";
+		};
+		"1D6CEA03E1D302077BBBF51F" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "F2A0DC774275063EF9444AA6";
+		};
+		"B4C7C934B3DB25ABBE3FF880" = {
+			"isa" = "PBXContainerItemProxy";
+			"containerPortal" = "AA0000000000000000000009";
+			"remoteGlobalIDString" = "B6A3E4DDD85B13232758708C";
+			"remoteInfo" = "Mac2PhoneWatch";
+			"proxyType" = "1";
+		};
+		"AA000000000000000000000E" = {
+			"isa" = "XCBuildConfiguration";
+			"buildSettings" = {
+				"ONLY_ACTIVE_ARCH" = "YES";
+				"SWIFT_ACTIVE_COMPILATION_CONDITIONS" = "DEBUG $(inherited)";
+				"DEBUG_INFORMATION_FORMAT" = "dwarf";
+				"ENABLE_STRICT_OBJC_MSGSEND" = "YES";
+				"CLANG_ENABLE_MODULES" = "YES";
+				"GCC_C_LANGUAGE_STANDARD" = "gnu17";
+				"ENABLE_TESTABILITY" = "YES";
+				"GCC_OPTIMIZATION_LEVEL" = "0";
+				"SWIFT_OPTIMIZATION_LEVEL" = "-Onone";
+				"ALWAYS_SEARCH_USER_PATHS" = "NO";
+				"SDKROOT" = "iphoneos";
+				"SWIFT_VERSION" = "5.0";
+				"GCC_PREPROCESSOR_DEFINITIONS" = ("DEBUG=1", "$(inherited)", );
+				"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
+				"ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOL_FRAMEWORKS" = "";
+				"CLANG_ENABLE_OBJC_ARC" = "YES";
+			};
+			"name" = "Debug";
+		};
+		"AA0000000000000000000007" = {
+			"isa" = "PBXSourcesBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = ("9AD492927BFA6696B12A67D0", "C0DE00000000000000000002", );
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"0D34AB84B83A0B059A732420" = {
+			"path" = "../Sources/mac2phone/Server.swift";
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"sourceTree" = "<group>";
+		};
+		"CD256E3ADE49CC615EAAAC8A" = {
+			"isa" = "PBXSourcesBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = ("0633E9C29A42CC3647A0032E", "1D6CEA03E1D302077BBBF51F", "D0A037F02B63A2BB41A2CAF2", "82035BC70541EE53BDD0EC08", "4CBFD98C2F323396B00B1084", );
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"AA000000000000000000000F" = {
+			"isa" = "XCBuildConfiguration";
+			"buildSettings" = {
+				"CLANG_ENABLE_OBJC_ARC" = "YES";
+				"DEBUG_INFORMATION_FORMAT" = "dwarf-with-dsym";
+				"ENABLE_STRICT_OBJC_MSGSEND" = "YES";
+				"CLANG_ENABLE_MODULES" = "YES";
+				"GCC_C_LANGUAGE_STANDARD" = "gnu17";
+				"SWIFT_COMPILATION_MODE" = "wholemodule";
+				"ALWAYS_SEARCH_USER_PATHS" = "NO";
+				"ENABLE_NS_ASSERTIONS" = "NO";
+				"SDKROOT" = "iphoneos";
+				"SWIFT_VERSION" = "5.0";
+				"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
+				"ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOL_FRAMEWORKS" = "";
+				"VALIDATE_PRODUCT" = "YES";
+			};
+			"name" = "Release";
+		};
+		"AA0000000000000000000008" = {
+			"isa" = "PBXResourcesBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = ();
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"34640011DD5D4199C928B915" = {
+			"path" = "../Sources/mac2phone/Protocol.swift";
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"sourceTree" = "<group>";
+		};
+		"6D7B162209C3137A87ECB2E4" = {
+			"isa" = "XCBuildConfiguration";
+			"name" = "Debug";
+			"buildSettings" = {
+				"LD_RUNPATH_SEARCH_PATHS" = ("$(inherited)", "@executable_path/Frameworks", );
+				"MARKETING_VERSION" = "1.0";
+				"INFOPLIST_FILE" = "Mac2PhoneWatch-Info.plist";
+				"SKIP_INSTALL" = "YES";
+				"TARGETED_DEVICE_FAMILY" = "4";
+				"GENERATE_INFOPLIST_FILE" = "NO";
+				"SWIFT_OPTIMIZATION_LEVEL" = "-Onone";
+				"SUPPORTED_PLATFORMS" = "watchos watchsimulator";
+				"CODE_SIGN_STYLE" = "Automatic";
+				"SDKROOT" = "watchos";
+				"SWIFT_VERSION" = "5.0";
+				"PRODUCT_NAME" = "$(TARGET_NAME)";
+				"WATCHOS_DEPLOYMENT_TARGET" = "10.0";
+				"PRODUCT_BUNDLE_IDENTIFIER" = "com.kianoosh.mac2phone.watchkitapp";
+				"CURRENT_PROJECT_VERSION" = "1";
+				"ASSETCATALOG_COMPILER_APPICON_NAME" = "AppIcon";
+			};
+		};
+		"BF4AF38189CC2664DA4C9D16" = {
+			"isa" = "XCBuildConfiguration";
+			"name" = "Debug";
+			"buildSettings" = {
+				"APPLICATION_EXTENSION_API_ONLY" = "YES";
+				"CODE_SIGN_ENTITLEMENTS" = "Broadcast.entitlements";
+				"LD_RUNPATH_SEARCH_PATHS" = ("$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks", );
+				"MARKETING_VERSION" = "1.0";
+				"INFOPLIST_FILE" = "Mac2PhoneBroadcast-Info.plist";
+				"SKIP_INSTALL" = "YES";
+				"TARGETED_DEVICE_FAMILY" = "1,2";
+				"M2P_APP_GROUP" = "group.com.kianoosh.mac2phone";
+				"GENERATE_INFOPLIST_FILE" = "NO";
+				"SWIFT_OPTIMIZATION_LEVEL" = "-Onone";
+				"CODE_SIGN_STYLE" = "Automatic";
+				"SDKROOT" = "iphoneos";
+				"SWIFT_VERSION" = "5.0";
+				"PRODUCT_NAME" = "$(TARGET_NAME)";
+				"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
+				"PRODUCT_BUNDLE_IDENTIFIER" = "com.kianoosh.mac2phone.broadcast";
+				"CURRENT_PROJECT_VERSION" = "1";
+			};
+		};
+		"F2A0DC774275063EF9444AA6" = {
+			"path" = "Shared/BroadcastState.swift";
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"sourceTree" = "<group>";
+		};
+		"AA0000000000000000000009" = {
+			"buildConfigurationList" = "AA000000000000000000000D";
+			"targets" = ("AA0000000000000000000006", "A1C19B7930F2910F092F68BD", "B6A3E4DDD85B13232758708C", );
+			"minimizedProjectReferenceProxies" = "1";
+			"developmentRegion" = "en";
+			"knownRegions" = ("en", "Base", );
+			"isa" = "PBXProject";
+			"productRefGroup" = "AA0000000000000000000004";
+			"projectDirPath" = "";
+			"attributes" = {
+				"LastSwiftUpdateCheck" = "2650";
+				"BuildIndependentTargetsInParallel" = "1";
+				"LastUpgradeCheck" = "2650";
+				"TargetAttributes" = {
+					"AA0000000000000000000006" = {
+						"CreatedOnToolsVersion" = "26.5";
+					};
+				};
+			};
+			"hasScannedForEncodings" = "0";
+			"projectRoot" = "";
+			"preferredProjectObjectVersion" = "77";
+			"mainGroup" = "AA0000000000000000000003";
+		};
+		"F5E970EA2F7E86FCEE2696EF" = {
+			"path" = "Mac2PhoneBroadcast.appex";
+			"isa" = "PBXFileReference";
+			"includeInIndex" = "0";
+			"explicitFileType" = "wrapper.app-extension";
+			"sourceTree" = "BUILT_PRODUCTS_DIR";
+		};
+		"12816562F10EF469EBA80D30" = {
+			"isa" = "PBXFrameworksBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = ();
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"4AB5CA9B639127DB83CDAC5E" = {
+			"isa" = "PBXResourcesBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = ("6EFCAFF15F6892CB7F04086D", );
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"9AD492927BFA6696B12A67D0" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "F2A0DC774275063EF9444AA6";
+		};
+		"1C9B5D4F56ED36FCE9C5F020" = {
+			"isa" = "XCConfigurationList";
+			"defaultConfigurationIsVisible" = "0";
+			"defaultConfigurationName" = "Release";
+			"buildConfigurations" = ("BF4AF38189CC2664DA4C9D16", "20DCBEFF93F5AF44EEAD2F1D", );
+		};
+		"89DCD8088E5A4DB439C6DB93" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "F5E970EA2F7E86FCEE2696EF";
+			"settings" = {
+				"ATTRIBUTES" = ("RemoveHeadersOnCopy", );
+			};
+		};
+		"671AD406CE8051A9B460388E" = {
+			"isa" = "PBXTargetDependency";
+			"target" = "A1C19B7930F2910F092F68BD";
+			"targetProxy" = "3085A25FE2E181F7836CAD68";
+		};
+		"0633E9C29A42CC3647A0032E" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "5EC454BDEDFF27267813770B";
+		};
+		"124641235FED72D5DF2B1544" = {
+			"isa" = "PBXFrameworksBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = ();
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"149E39BE9AD10B7FF4517A31" = {
+			"isa" = "XCConfigurationList";
+			"defaultConfigurationIsVisible" = "0";
+			"defaultConfigurationName" = "Release";
+			"buildConfigurations" = ("6D7B162209C3137A87ECB2E4", "6DC5967503BCAB6E2FAFBD78", );
+		};
+		"B6A3E4DDD85B13232758708C" = {
+			"productReference" = "F8C32698263B8BBC0910FD18";
+			"productType" = "com.apple.product-type.application";
+			"buildConfigurationList" = "149E39BE9AD10B7FF4517A31";
+			"productName" = "Mac2PhoneWatch";
+			"isa" = "PBXNativeTarget";
+			"buildPhases" = ("FF966815EBC5B7D5D1F6D247", "124641235FED72D5DF2B1544", "4AB5CA9B639127DB83CDAC5E", );
+			"dependencies" = ();
+			"name" = "Mac2PhoneWatch";
+			"buildRules" = ();
+		};
+		"20DCBEFF93F5AF44EEAD2F1D" = {
+			"isa" = "XCBuildConfiguration";
+			"name" = "Release";
+			"buildSettings" = {
+				"APPLICATION_EXTENSION_API_ONLY" = "YES";
+				"CODE_SIGN_ENTITLEMENTS" = "Broadcast.entitlements";
+				"LD_RUNPATH_SEARCH_PATHS" = ("$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks", );
+				"MARKETING_VERSION" = "1.0";
+				"INFOPLIST_FILE" = "Mac2PhoneBroadcast-Info.plist";
+				"SKIP_INSTALL" = "YES";
+				"TARGETED_DEVICE_FAMILY" = "1,2";
+				"M2P_APP_GROUP" = "group.com.kianoosh.mac2phone";
+				"GENERATE_INFOPLIST_FILE" = "NO";
+				"SWIFT_OPTIMIZATION_LEVEL" = "-O";
+				"CODE_SIGN_STYLE" = "Automatic";
+				"SDKROOT" = "iphoneos";
+				"SWIFT_VERSION" = "5.0";
+				"PRODUCT_NAME" = "$(TARGET_NAME)";
+				"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
+				"PRODUCT_BUNDLE_IDENTIFIER" = "com.kianoosh.mac2phone.broadcast";
+				"CURRENT_PROJECT_VERSION" = "1";
+			};
+		};
+		"3085A25FE2E181F7836CAD68" = {
+			"isa" = "PBXContainerItemProxy";
+			"containerPortal" = "AA0000000000000000000009";
+			"remoteGlobalIDString" = "A1C19B7930F2910F092F68BD";
+			"remoteInfo" = "Mac2PhoneBroadcast";
+			"proxyType" = "1";
+		};
+		"3E446B8391B47BFD1EA867B9" = {
+			"isa" = "PBXTargetDependency";
+			"target" = "B6A3E4DDD85B13232758708C";
+			"targetProxy" = "B4C7C934B3DB25ABBE3FF880";
+		};
+		"5EC454BDEDFF27267813770B" = {
+			"path" = "Broadcast/SampleHandler.swift";
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"sourceTree" = "<group>";
+		};
+		"A1C19B7930F2910F092F68BD" = {
+			"productReference" = "F5E970EA2F7E86FCEE2696EF";
+			"productType" = "com.apple.product-type.app-extension";
+			"buildConfigurationList" = "1C9B5D4F56ED36FCE9C5F020";
+			"productName" = "Mac2PhoneBroadcast";
+			"isa" = "PBXNativeTarget";
+			"buildPhases" = ("CD256E3ADE49CC615EAAAC8A", "12816562F10EF469EBA80D30", "6D47F0BBA030D65C368F3B4A", );
+			"dependencies" = ();
+			"name" = "Mac2PhoneBroadcast";
+			"buildRules" = ();
+		};
+		"9CE0211EE5AEF1D1269E3D93" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "folder.assetcatalog";
+			"path" = "Watch/Assets.xcassets";
+			"sourceTree" = "<group>";
+		};
+		"6EFCAFF15F6892CB7F04086D" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "9CE0211EE5AEF1D1269E3D93";
+		};
+	};
+	"rootObject" = "AA0000000000000000000009";
+}

@@ -1,0 +1,30 @@
+{
+  "name": "mac2phone-desktop",
+  "version": "0.5.3",
+  "private": true,
+  "description": "Encrypted LAN screen sharing and remote control",
+  "license": "MIT",
+  "main": "bootstrap.cjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test test/*.test.cjs",
+    "package:windows": "node package.cjs win32",
+    "package:linux": "node package.cjs linux",
+    "setup": "install-electron",
+    "test:ui": "electron test/ui-smoke.cjs",
+    "package:mac": "node package.cjs darwin",
+    "test:startup": "node test/startup-smoke.cjs",
+    "test:capture": "electron test/capture-permission-smoke.cjs",
+    "test:sharing-ui": "electron test/sharing-ui-smoke.cjs",
+    "test:sharing-integration": "electron test/sharing-integration.cjs",
+    "test:realtime": "electron test/realtime-smoke.cjs",
+    "test:preferences": "electron test/preferences-smoke.cjs"
+  },
+  "devDependencies": {
+    "@electron/packager": "20.3.0",
+    "electron": "44.9.0"
+  },
+  "dependencies": {
+    "bonjour-service": "1.4.4"
+  }
+}

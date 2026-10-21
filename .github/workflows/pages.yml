@@ -1,0 +1,38 @@
+name: Publish website
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", ".github/workflows/pages.yml", "Scripts/check-site.py"]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Install website dependencies
+        run: npm --prefix site ci
+      - name: Test and build the React website
+        run: npm --prefix site test && npm --prefix site run build && python3 Scripts/check-site.py
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site/dist
+      - name: Publish
+        id: deployment
+        uses: actions/deploy-pages@v4

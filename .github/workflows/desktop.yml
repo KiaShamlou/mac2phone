@@ -1,0 +1,67 @@
+name: Desktop preview
+on:
+  push:
+    paths: ['desktop/**', '.github/workflows/desktop.yml']
+  pull_request:
+    paths: ['desktop/**', '.github/workflows/desktop.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            target: windows
+            artifact: Mac2Phone-win32-x64
+          - os: ubuntu-latest
+            target: linux
+            artifact: Mac2Phone-linux-x64
+          - os: macos-15
+            target: mac
+            artifact: Mac2PhoneDesktop-darwin-arm64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: desktop/package-lock.json
+      - run: npm ci
+      - run: npm run setup
+      - run: npm test
+      - name: Compile Windows input helper without injecting input
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: ./native/input-windows.ps1 -Check
+      - name: Verify display-capture permissions using a synthetic app page
+        if: runner.os == 'Windows' || runner.os == 'macOS'
+        run: npm run test:capture
+      - name: Exercise permission-first sharing and desktop navigation
+        if: runner.os == 'Windows' || runner.os == 'macOS'
+        run: npm run test:sharing-ui
+      - name: Verify production sharing with synthetic capture and loopback TLS
+        if: runner.os == 'Windows' || runner.os == 'macOS'
+        run: npm run test:sharing-integration
+      - name: Verify Electron TLS cipher support
+        shell: bash
+        run: ELECTRON_RUN_AS_NODE=1 node_modules/.bin/electron test/runtime-smoke.cjs
+      - run: npm run package:${{ matrix.target }}
+      - name: Verify Windows package contents
+        if: runner.os == 'Windows'
+        run: node test/package-check.cjs windows
+      - name: Launch the packaged Windows EXE and check its UI
+        if: runner.os == 'Windows'
+        run: node test/startup-smoke.cjs --executable=release/Mac2Phone-win32-x64/Mac2Phone.exe
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}-preview
+          path: desktop/release/${{ matrix.artifact }}/
+          retention-days: 7

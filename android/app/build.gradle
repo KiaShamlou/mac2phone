@@ -1,0 +1,15 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'io.mac2phone.app'
+    compileSdk 36
+    defaultConfig { applicationId 'io.mac2phone.app'; minSdk 29; targetSdk 36; versionCode 4; versionName '0.4.0' }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    buildTypes { release { minifyEnabled false } }
+    packaging { resources { merges += ['META-INF/LICENSE.md','META-INF/NOTICE.md']; excludes += ['META-INF/versions/**/OSGI-INF/MANIFEST.MF','META-INF/INDEX.LIST'] } }
+}
+dependencies {
+    implementation 'org.bouncycastle:bctls-jdk18on:1.86.2'
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.86'
+    implementation 'org.bouncycastle:bcutil-jdk18on:1.86'
+    testImplementation 'junit:junit:4.13.2'
+}

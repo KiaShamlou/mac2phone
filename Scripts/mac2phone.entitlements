@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Reading the Mac2Phone virtual output device counts as audio input, and
+	     under the hardened runtime that needs saying out loud. Without this the
+	     permission request is refused instantly, with no prompt and no entry in
+	     System Settings to turn on by hand. -->
+	<key>com.apple.security.device.audio-input</key>
+	<true/>
+</dict>
+</plist>

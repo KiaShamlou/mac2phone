@@ -1,0 +1,68 @@
+'use strict';
+process.env.M2P_UI_TEST='1';
+const {app,BrowserWindow}=require('electron');
+const {spawn}=require('node:child_process');
+const {once}=require('node:events');
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'../..');
+app.setPath('userData',path.join(root,'.polish/cross-platform/electron-test-profile'));
+require('../main.cjs');
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+let fixture;
+app.whenReady().then(async()=>{
+  try {
+    const window=BrowserWindow.getAllWindows()[0];
+    if(window.webContents.isLoading())await once(window.webContents,'did-finish-load');
+    const prefs=window.webContents.getLastWebPreferences();
+    assert.equal(prefs.sandbox,true);assert.equal(prefs.contextIsolation,true);assert.equal(prefs.nodeIntegration,false);
+    const initial=await window.webContents.executeJavaScript(`({bridge:typeof mac2phone,require:typeof require,controls:document.getElementById('control').disabled,overflow:document.documentElement.scrollWidth>innerWidth})`);
+    assert.deepEqual(initial,{bridge:'object',require:'undefined',controls:true,overflow:false});
+    assert.deepEqual(await window.webContents.executeJavaScript(`mac2phone.hostStart()`),{ok:false});
+    assert.equal(await window.webContents.executeJavaScript(`mac2phone.hostCopy()`),false);
+    assert.deepEqual(await window.webContents.executeJavaScript(`mac2phone.nearbyRefresh()`),{ok:false});
+    await window.webContents.executeJavaScript(`document.getElementById('nearby-refresh').click()`);
+    await sleep(1100);
+    assert.deepEqual(await window.webContents.executeJavaScript(`({enabled:!document.getElementById('nearby-refresh').disabled,label:document.querySelector('#nearby-refresh span').textContent})`),{enabled:true,label:'Refresh'});
+    console.log('PASS host IPC rejects start/copy before a selected, approved capture');
+    window.webContents.send('m2p:nearby-devices',[{id:'fixture',name:'<b>Fixture device</b>',platform:'android'}]);
+    window.webContents.send('m2p:nearby-incoming',{id:'fixture-request',name:'Fixture iPhone',platform:'ios',code:'123456'});
+    await sleep(100);
+    assert.deepEqual(await window.webContents.executeJavaScript(`({name:document.querySelector('.device-button strong').textContent,injected:!!document.querySelector('.device-button b'),code:document.getElementById('request-code').textContent,shown:!document.getElementById('nearby-incoming').hidden})`),{name:'<b>Fixture device</b>',injected:false,code:'123456',shown:true});
+    assert.deepEqual(await window.webContents.executeJavaScript(`mac2phone.nearbyRespond('fixture-request',true)`),{ok:false});
+    fs.mkdirSync(path.join(root,'.polish/nearby-approval'),{recursive:true});
+    fs.writeFileSync(path.join(root,'.polish/nearby-approval/desktop-nearby-preview.png'),(await window.webContents.capturePage()).toPNG());
+    window.webContents.send('m2p:nearby-incoming',null);
+    console.log('PASS nearby list, escaped names, verification code and stale approval rejection');
+    await sleep(250);fs.writeFileSync(path.join(root,'.polish/cross-platform/desktop-preview.png'),(await window.webContents.capturePage()).toPNG());
+    console.log('PASS sandbox, isolated narrow bridge, view-only initial state and desktop layout');
+    let log='';
+    fixture=spawn(path.join(root,'.polish/cross-platform/server-fixture'),['18766']);
+    fixture.stdout.on('data',b=>log+=b);fixture.stderr.on('data',()=>{});
+    for(let i=0;i<80&&!log.includes('READY');i++)await sleep(50);assert.match(log,/READY/);
+    const link='mac2phone://127.0.0.1:18766#v2.00000000-0000-4000-8000-000000000001.'+Buffer.alloc(32,65).toString('base64url');
+    await window.webContents.executeJavaScript(`document.getElementById('pair-link').value=${JSON.stringify(link)};document.getElementById('pair-form').requestSubmit();`);
+    let result;
+    for(let i=0;i<100;i++){
+      result=await window.webContents.executeJavaScript(`({badge:document.getElementById('status').textContent,width:document.getElementById('screen').width,secret:document.getElementById('pair-link').value})`);
+      if(result.badge==='Paired · encrypted'&&result.width===32)break;await sleep(50);
+    }
+    assert.equal(result.badge,'Paired · encrypted');assert.equal(result.width,32);assert.equal(result.secret,'');
+    console.log('PASS Electron ↔ Swift pairing, real JPEG decode/render and cleared secret field');
+    await window.webContents.executeJavaScript(`document.getElementById('audio').click()`,true);
+    await sleep(300);
+    assert.equal(await window.webContents.executeJavaScript(`audioContext?.state==='running'&&format?.rate===48000&&audioAt>0`),true);
+    await window.webContents.executeJavaScript(`document.getElementById('audio').click()`);
+    console.log('PASS renderer PCM scheduling and sound toggle with synthetic silence');
+    await window.webContents.executeJavaScript(`document.getElementById('control').click()`);await sleep(100);
+    await window.webContents.executeJavaScript(`document.getElementById('text').value='UI fixture only';document.getElementById('text-form').requestSubmit()`);
+    await sleep(150);assert.match(log,/UI fixture only/);
+    await window.webContents.executeJavaScript(`document.getElementById('screen').dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',shiftKey:true,bubbles:true}))`);
+    assert.equal(await window.webContents.executeJavaScript(`document.getElementById('control').checked`),false);
+    await window.webContents.executeJavaScript(`document.getElementById('disconnect').click()`);await sleep(100);
+    assert.equal(await window.webContents.executeJavaScript(`document.getElementById('screen').hidden`),true);
+    console.log('PASS text input, local release shortcut and disconnect UI');
+    console.log('UI SMOKE: 6 groups passed');
+    fixture.kill();app.exit(0);
+  } catch(error) { console.error(error);fixture?.kill();app.exit(1); }
+});
+setTimeout(()=>{console.error('UI test timed out');fixture?.kill();app.exit(1);},25000).unref();
