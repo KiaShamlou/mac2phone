@@ -1,0 +1,19 @@
+/* A local signal: exact point, soft wake, and a frame that finds controls. */
+.signal-cursor{position:fixed;inset:0;z-index:10000;pointer-events:none;overflow:hidden;opacity:0;contain:strict;transition:opacity .15s ease}
+.signal-cursor.is-visible{opacity:1}
+.signal-cursor span{position:absolute;top:0;left:0;pointer-events:none;will-change:transform}
+.signal-cursor__dot{width:5px;height:5px;background:#e6fff4;border-radius:50%;box-shadow:0 0 0 1px #123d3e,0 0 10px #8cf8d480}
+.signal-cursor__glow{width:84px;height:84px;border-radius:50%;background:radial-gradient(circle,#8cf8d419 0,#8cf8d408 40%,transparent 70%)}
+.signal-cursor__frame{width:34px;height:34px;color:#8cf8d4;filter:drop-shadow(0 1px 1px #042428aa);transition:color .2s ease}
+.signal-cursor__frame i{position:absolute;width:8px;height:8px;border:1.5px solid currentColor;transition:width .2s,height .2s}
+.signal-cursor__frame i:nth-child(1){top:0;left:0;border-right:0;border-bottom:0;border-radius:5px 0 0 0}
+.signal-cursor__frame i:nth-child(2){top:0;right:0;border-left:0;border-bottom:0;border-radius:0 5px 0 0}
+.signal-cursor__frame i:nth-child(3){bottom:0;right:0;border-left:0;border-top:0;border-radius:0 0 5px 0}
+.signal-cursor__frame i:nth-child(4){bottom:0;left:0;border-right:0;border-top:0;border-radius:0 0 0 5px}
+.signal-cursor.is-locked .signal-cursor__frame{color:#d8ffef}
+.signal-cursor.is-locked .signal-cursor__frame i{width:12px;height:12px}
+.signal-cursor__ripple{width:24px;height:24px;opacity:0;border:1px solid #8cf8d4;border-radius:50%;box-shadow:0 0 12px #8cf8d42b}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) and (forced-colors:none){
+  html.has-signal-cursor,html.has-signal-cursor *{cursor:none!important}
+}
+@media(hover:none),(pointer:coarse),(prefers-reduced-motion:reduce),(forced-colors:active){.signal-cursor{display:none}}

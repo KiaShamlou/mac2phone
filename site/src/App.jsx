@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import AnimatedContent from './components/react-bits/AnimatedContent.jsx';
 import ModeExplorer from './components/ModeExplorer.jsx';
+import SignalCursor from './components/SignalCursor.jsx';
 import { usePageMotion } from './usePageMotion.js';
 import { setupCommands } from './modes.js';
 import { platforms } from './platforms.js';
@@ -22,6 +23,7 @@ export default function App() {
     }
   }
   return <div ref={root}>
+  <SignalCursor />
 
   <a className="skip" href="#main">Skip to content</a>
   <header className="header wrap">
